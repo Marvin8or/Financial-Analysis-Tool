@@ -9,10 +9,6 @@ import argparse
 import yfinance as yf
 from datetime import datetime
 
-data = yf.download("I500.DE", period="max")
-
-print(data.head())
-
 
 def get_arguments():
     parser = argparse.ArgumentParser()
