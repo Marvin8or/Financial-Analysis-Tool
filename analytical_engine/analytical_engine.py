@@ -38,7 +38,20 @@ class AnalyticalEngine:
         print(f"Moving averages saved to '{filepath}'")
 
     def calculate_daily_percentage_change(self, feature: str) -> Dict:
-        pass
+        data_as_numpy = self.data[feature].values
+        mask = np.array([0, 1])
+        dperc_change = np.empty(len(data_as_numpy))
+        dperc_change[0] = np.nan
+        idx = 1
+        while mask[-1] < len(data_as_numpy):
+            values = data_as_numpy[mask]
+            values_diff = np.diff(values)
+            dperc_change[idx] = values_diff[0] / values[0]
+            idx += 1
+            mask += 1
+
+        dperc_change = dperc_change * 100
+        self.result_dict[f"daily_percentage_change_{feature}"] = dperc_change
 
 
 if __name__ == "__main__":
@@ -46,3 +59,4 @@ if __name__ == "__main__":
         "C:/Projects/Quant Analysis/quant_analysis/src/datasets/I500.DE_20250802-210754.csv"
     )
     aeng = AnalyticalEngine(data)
+    aeng.calculate_daily_percentage_change("Close")
