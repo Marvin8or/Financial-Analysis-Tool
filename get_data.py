@@ -22,7 +22,12 @@ def get_arguments():
 if __name__ == "__main__":
     args = get_arguments()
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    data = yf.download(args.ticker, period="max")
+    raw_data = yf.download(args.ticker, period="max")
+
+    # Preprocess data
+    data = raw_data.copy()
+    data.columns = [price for price, ticker in raw_data.columns]
+    data = data.reset_index()
 
     if not data.empty:
         print(f"Successfully downloaded data for {args.ticker}.")
