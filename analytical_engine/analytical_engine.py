@@ -18,7 +18,6 @@ class AnalyticalEngine:
             moving_avg_df[ma_label] = (
                 self.data[column].rolling(window=window).mean()
             )
-
         self.result_dict["moving_avg_df"] = moving_avg_df
         return moving_avg_df
 
