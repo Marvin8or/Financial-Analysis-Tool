@@ -40,6 +40,16 @@ class AnalyticalEngine:
         self.result_dict[f"daily_percentage_change_{feature}"] = dperc_change
 
 
+    def calculate_cumulative_returns(self, column="Close"):
+        price_series = self.data[column]
+        initial_price = price_series.iloc[0]
+
+        cumulative_returns = (price_series / initial_price) - 1
+
+        self.result_dict["cumulative_returns"] = cumulative_returns
+        return cumulative_returns
+
+
 if __name__ == "__main__":
     data = pd.read_csv(
         "C:/Projects/Quant Analysis/quant_analysis/src/datasets/I500.DE_20250802-210754.csv"
