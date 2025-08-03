@@ -10,16 +10,12 @@ class AnalyticalEngine:
         self.features: List = list(data.columns)
         self.result_dict = {}
 
-    def calculate_moving_averages(self, column="Close", windows=[5, 20, 50]):
-        moving_avg_df = pd.DataFrame(index=self.data.index)
+    def calculate_moving_averages(self, column="Close", window = 20):
+        ma_label = f"MA_{window}"
+        moving_avg = self.data[column].rolling(window=window).mean()
+        self.result_dict[ma_label] = moving_avg
 
-        for window in windows:
-            ma_label = f"MA_{window}"
-            moving_avg_df[ma_label] = (
-                self.data[column].rolling(window=window).mean()
-            )
-        self.result_dict["moving_avg_df"] = moving_avg_df
-        return moving_avg_df
+        return moving_avg
 
     def calculate_daily_percentage_change(
         self, feature: str = "Close"
