@@ -39,6 +39,16 @@ class AnalyticalEngine:
         dperc_change = dperc_change * 100
         self.result_dict[f"daily_percentage_change_{feature}"] = dperc_change
 
+    def calculate_closing_price_volatility(self, time_frame=252):
+        # Daily returns
+        data_as_numpy = self.data["Close"].values
+        daily_returns = np.log(data_as_numpy[1:] / data_as_numpy[:-1])
+        daily_returns_std = np.std(daily_returns)
+
+        self.result_dict[f"relative_volatility_{time_frame}"] = float(
+            daily_returns_std * np.sqrt(time_frame) * 100
+        )
+
 
     def calculate_cumulative_returns(self, column="Close"):
         price_series = self.data[column]
@@ -56,3 +66,6 @@ if __name__ == "__main__":
     )
     aeng = AnalyticalEngine(data)
     aeng.calculate_daily_percentage_change("Close")
+    aeng.calculate_closing_price_volatility()
+
+    print()
