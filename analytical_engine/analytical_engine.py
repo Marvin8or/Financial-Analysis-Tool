@@ -11,7 +11,7 @@ class AnalyticalEngine:
         self.result_dict = {}
 
     def calculate_moving_averages(self, column="Close", window = 20):
-        ma_label = f"MA_{window}"
+        ma_label = f"MA_{column}_{window}"
         moving_avg = self.data[column].rolling(window=window).mean()
         self.result_dict[ma_label] = moving_avg
 
